@@ -40,7 +40,7 @@ class ManageUserNotificationGroup extends ManageRelatedRecords
             CreateAction::make()
                 ->label('Add Member')
                 ->model(NotificationGroupMember::class)
-                ->form([
+                ->schema([
                     Select::make('member_user_id')
                         ->label('Member')
                         ->options(fn () => User::query()
@@ -54,7 +54,7 @@ class ManageUserNotificationGroup extends ManageRelatedRecords
                         ->label('Expires At')
                         ->nullable(),
                 ])
-                ->mutateFormDataUsing(function (array $data): array {
+                ->mutateDataUsing(function (array $data): array {
                     $data['user_id'] = $this->record->getKey();
 
                     return $data;

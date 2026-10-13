@@ -41,7 +41,7 @@ class ManageUserDelegations extends ManageRelatedRecords
             CreateAction::make()
                 ->label('Create Delegation')
                 ->model(ManagementReviewDelegation::class)
-                ->form([
+                ->schema([
                     Select::make('delegate_user_id')
                         ->label('Delegate')
                         ->options(fn () => User::query()
@@ -62,7 +62,7 @@ class ManageUserDelegations extends ManageRelatedRecords
                         ->label('Comment')
                         ->nullable(),
                 ])
-                ->mutateFormDataUsing(function (array $data): array {
+                ->mutateDataUsing(function (array $data): array {
                     $data['user_id'] = $this->record->getKey();
 
                     return $data;

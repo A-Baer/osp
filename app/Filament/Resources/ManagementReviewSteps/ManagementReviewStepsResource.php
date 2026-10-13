@@ -70,7 +70,7 @@ class ManagementReviewStepsResource extends Resource
                     ->icon('heroicon-o-arrow-uturn-right')
                     ->color('warning')
                     ->visible(fn (ManagementReviewStep $record): bool => $record->status === ManagementReviewStepStatus::PENDING)
-                    ->form([
+                    ->schema([
                         Select::make('next_user_id')
                             ->label('Reassign to')
                             ->options(fn (ManagementReviewStep $record): array => User::query()

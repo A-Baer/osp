@@ -18,17 +18,15 @@ class FuzzyFilter implements Filter
     public function __invoke(Builder $query, mixed $value, string $property): void
     {
         $attributes = $this->columns;
+        $searchTerms = Arr::wrap(is_string($value) ? explode(' ', $value) : $value);
 
         // is database engine postgresql? if so, use ILIKE as it is case insensitive
         $like = config('database.default') === 'pgsql' ? 'ILIKE' : 'LIKE';
 
-        $query->where(function (Builder $query) use ($attributes, $value, $like): void {
+        $query->where(function (Builder $query) use ($attributes, $searchTerms, $like): void {
             foreach (Arr::wrap($attributes) as $attribute) {
-                $query->orWhere(function (\Illuminate\Contracts\Database\Query\Builder $query) use ($attribute, $value, $like): void {
-                    if (is_string($value)) {
-                        $value = explode(' ', $value);
-                    }
-                    foreach ($value as $searchTerm) {
+                $query->orWhere(function (\Illuminate\Contracts\Database\Query\Builder $query) use ($attribute, $searchTerms, $like): void {
+                    foreach ($searchTerms as $searchTerm) {
                         $query->orWhere($attribute, $like, "%{$searchTerm}%");
                     }
                 });

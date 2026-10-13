@@ -56,7 +56,7 @@ class ListManuscripts extends ListRecords
 
     protected function getTabCount(?ManuscriptRecordStatus $status = null): int
     {
-        $query = $this->getTableQuery();
+        $query = static::getResource()::getEloquentQuery();
 
         if ($query instanceof Relation) {
             $query = $query->getQuery();

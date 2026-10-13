@@ -41,7 +41,7 @@ class ManageRegionNotificationGroup extends ManageRelatedRecords
             CreateAction::make()
                 ->label('Add Member')
                 ->model(RegionNotificationGroupMember::class)
-                ->form([
+                ->schema([
                     Select::make('user_id')
                         ->label('Member')
                         ->options(fn () => User::query()
@@ -51,7 +51,7 @@ class ManageRegionNotificationGroup extends ManageRelatedRecords
                         ->searchable()
                         ->required(),
                 ])
-                ->mutateFormDataUsing(function (array $data): array {
+                ->mutateDataUsing(function (array $data): array {
                     $data['region_id'] = $this->record->getKey();
 
                     return $data;

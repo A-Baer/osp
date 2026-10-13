@@ -10,7 +10,7 @@ use App\Models\ManuscriptRecord;
 use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Forms\Components\KeyValue;
-use Filament\Forms\Components\Placeholder;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Support\Icons\Heroicon;
@@ -112,10 +112,10 @@ class ManuscriptsResource extends Resource
                                 }
                             }),
                     ])
-                    ->form([
-                        Placeholder::make('title')
+                    ->schema([
+                        TextEntry::make('title')
                             ->label('Title')
-                            ->content(fn ($record) => $record->title),
+                            ->state(fn ($record) => $record->title),
 
                         KeyValue::make('quick_view_data')
                             ->label('')
@@ -132,7 +132,7 @@ class ManuscriptsResource extends Resource
                     ])
                     ->action(fn (): null => null),
             ])
-            ->bulkActions(
+            ->toolbarActions(
                 []
             );
     }
